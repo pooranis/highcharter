@@ -455,8 +455,13 @@ get_hc_series_from_df <- function(data, type = NULL, ...) {
     if (type == "treemap") {
       data <- rename_(data, "colorValue" = "color")
     } else {
-      data  <- mutate_(data, "colorv" = "color",
+      if (has_name(parsc, "colorvalues")) {
+        data  <- mutate_(data, "colorv" = "color",
+                       "color" = "colorvalues")
+      } else {
+        data  <- mutate_(data, "colorv" = "color",
                        "color" = "highcharter::colorize(color)")  
+      }
     }
   }
   
